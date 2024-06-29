@@ -8,6 +8,8 @@ jobs:
       - uses: actions/checkout@v4
       - id: semrel
         uses: thegrumpylion/semrel-action@main
+        with:
+          tag: 0.0.2
       - run: echo next-ver = $NEXT_VERSION
         shell: bash
         env:
