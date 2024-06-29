@@ -1,0 +1,51 @@
+name: semrel action
+description: "setup and run semrel cli"
+inputs:
+  token:
+    description: "GITHUB_TOKEN or a `repo` scoped Personal Access Token (PAT)"
+    default: ${{ github.token }}
+  tag:
+    description: "tag containing binary to install"
+    default: latest
+    required: true
+  prerelease:
+    description: the prerelease suffix for this release
+    required: false
+    default: ""
+  prefix:
+    description: next version prefix
+    required: false
+    default: ""
+outputs:
+  next-version:
+    description: "next semver version"
+    value: ${{ steps.semrel.outputs.next-version }}
+runs:
+  using: "composite"
+  steps:
+    - name: Install go-task
+      uses: jaxxstorm/action-install-gh-release@v1.10.0
+      with:
+        token: ${{ inputs.token }}
+        repo: thegrumpylion/semrel
+        tag: ${{ inputs.tag }}
+
+    - name: run semrel
+      id: semrel
+      shell: bash
+      env:
+        SEMREL_PRERELEASE: ${{ inputs.prerelease }}
+      run: |
+        # Initialize the command with the CLI tool name
+        cmd="semrel"
+
+        # Check if prerelease is set and not empty
+        if [ -n "$SEMREL_PRERELEASE" ]; then
+          cmd+=" --prerelease $SEMREL_PRERELEASE"
+        fi
+
+        # Print the constructed command (for debugging purposes)
+        echo "Constructed command: $cmd"
+
+        # Execute the constructed command
+        echo "next-version=$(eval $cmd)" >>$GITHUB_OUTPUT
