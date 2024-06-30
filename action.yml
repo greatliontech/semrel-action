@@ -27,7 +27,7 @@ runs:
       uses: jaxxstorm/action-install-gh-release@v1.10.0
       with:
         token: ${{ inputs.token }}
-        repo: thegrumpylion/semrel
+        repo: greatliontech/semrel
         tag: ${{ inputs.tag }}
 
     - name: run semrel
