@@ -20,6 +20,9 @@ outputs:
   next-version:
     description: "next semver version"
     value: ${{ steps.semrel.outputs.next-version }}
+  current-version:
+    description: "current semver version"
+    value: ${{ steps.semrel.outputs.current-version }}
 runs:
   using: "composite"
   steps:
@@ -49,3 +52,6 @@ runs:
 
         # Execute the constructed command
         echo "next-version=$(eval $cmd)" >>$GITHUB_OUTPUT
+
+        # Get the current version
+        echo "current-version=$(semrel current)" >>$GITHUB_OUTPUT

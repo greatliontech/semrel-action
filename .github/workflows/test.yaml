@@ -8,9 +8,11 @@ jobs:
       - uses: actions/checkout@v4
       - id: semrel
         uses: thegrumpylion/semrel-action@main
-        with:
-          tag: 0.0.2
       - run: echo next-ver = $NEXT_VERSION
         shell: bash
         env:
           NEXT_VERSION: ${{ steps.semrel.outputs.next-version }}
+      - run: echo current-ver = $CURRENT_VERSION
+        shell: bash
+        env:
+          CURRENT_VERSION: ${{ steps.semrel.outputs.current-version }}
