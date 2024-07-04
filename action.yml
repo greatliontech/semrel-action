@@ -39,6 +39,9 @@ runs:
       env:
         SEMREL_PRERELEASE: ${{ inputs.prerelease }}
       run: |
+        # Get the current version
+        echo "current-version=$(semrel current)" >>$GITHUB_OUTPUT
+
         # Initialize the command with the CLI tool name
         cmd="semrel"
 
@@ -52,6 +55,3 @@ runs:
 
         # Execute the constructed command
         echo "next-version=$(eval $cmd)" >>$GITHUB_OUTPUT
-
-        # Get the current version
-        echo "current-version=$(semrel current)" >>$GITHUB_OUTPUT
